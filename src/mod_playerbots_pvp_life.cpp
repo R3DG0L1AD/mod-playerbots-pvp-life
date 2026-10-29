@@ -5,6 +5,7 @@
  */
 
 #include "PvPLifeMgr.h"
+#include "FamWowBotCompat.h" // FAMWOW bigupd
 #include "LifeBotReservation.h"
 
 #include "Chat.h"
@@ -77,7 +78,7 @@ public:
         for (GroupReference const* ref = group->GetFirstMember(); ref != nullptr; ref = ref->next())
         {
             Player const* member = ref->GetSource();
-            if (member && member->GetSession() && !member->GetSession()->IsBot())
+            if (member && member->GetSession() && !PvPLifeSessionIsBot(member))
             {
                 hasRealPlayer = true;
                 break;
@@ -90,7 +91,7 @@ public:
             for (GroupReference const* ref = group->GetFirstMember(); ref != nullptr; ref = ref->next())
             {
                 Player const* member = ref->GetSource();
-                if (member && member->GetSession() && member->GetSession()->IsBot())
+                if (member && member->GetSession() && PvPLifeSessionIsBot(member))
                     sPvPLifeMgr.OnAddGroupMember(member->GetGUID().GetCounter());
             }
         }
